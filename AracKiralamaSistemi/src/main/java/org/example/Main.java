@@ -2,25 +2,30 @@ package org.example;
 
 public class Main {
     public static void main(String[] args) {
+        System.out.println("--- ARAÇ KİRALAMA SİSTEMİ BAŞLATILIYOR ---\n");
 
-        System.out.println("--- ARAÇ KİRALAMA SİSTEMİ TESTİ ---\n");
+        // 1. Galeri (Envanter) Oluşturalım
+        ArabaEnvanteri galeri = new ArabaEnvanteri();
 
-        // 1. Benzinli Araba Üretelim (Günlük 1000 TL)
-        Araba benzinli = new BenzinliAraba("Fiat", "Egea", 1000);
+        // 2. Arabaları Üretelim (Polimorfizm: Araba türünde referanslar)
+        Araba fiat = new BenzinliAraba("Fiat", "Egea", 1000);
+        Araba tesla = new ElektrikliAraba("Tesla", "Model Y", 2000);
+        Araba togg = new ElektrikliAraba("TOGG", "T10X", 1800);
 
-        System.out.println("Araç: " + benzinli.getMarka() + " " + benzinli.getModel());
-        System.out.println("Yakıt Türü: Benzinli");
-        // 3 Günlük kiralayalım (1000 * 3 = 3000 TL olmalı)
-        System.out.println("3 Günlük Ücret: " + benzinli.calculateRentalFee(3) + " TL");
+        // 3. Arabaları Galeriye Ekleyelim
+        galeri.arabaEkle(fiat);
+        galeri.arabaEkle(tesla);
+        galeri.arabaEkle(togg);
 
-        System.out.println("\n----------------------------------\n");
+        // 4. Listeyi Görelim (Envanter Testi)
+        // Bu metot, envanterdeki tüm araçları ekrana yazar
+        galeri.araclariListele();
 
-        // 2. Elektrikli Araba Üretelim (Günlük 2000 TL)
-        Araba elektrikli = new ElektrikliAraba("Tesla", "Model Y", 2000);
+        System.out.println("\n--- KİRALAMA TESTİ ---");
+        // Fiat Egea'yı 3 gün kiralayalım (3 * 1000 = 3000 TL)
+        System.out.println("Fiat Egea 3 Günlük Kira: " + fiat.calculateRentalFee(3) + " TL");
 
-        System.out.println("Araç: " + elektrikli.getMarka() + " " + elektrikli.getModel());
-        System.out.println("Yakıt Türü: Elektrikli");
-        // 3 Günlük kiralayalım. Normalde 6000 TL ama %20 indirimle 4800 TL olmalı!
-        System.out.println("3 Günlük Ücret (İndirimli): " + elektrikli.calculateRentalFee(3) +"TL");
-    }
+        // TOGG'u 3 gün kiralayalım (3 * 1800 * 0.8 = 4320 TL - İndirimli)
+        System.out.println("TOGG 3 Günlük Kira (Elektrikli İndirimi): " + togg.calculateRentalFee(3) +"TL");
+      }
 }
